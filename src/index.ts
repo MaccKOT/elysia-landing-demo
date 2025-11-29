@@ -32,7 +32,10 @@ app.post("/submit", async ({ body }) => {
     return new Response("Missing fields", { status: 400 });
   }
 
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  // Validate email format (RFC 5322-practical subset)
+  const emailRegex =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+  if (!emailRegex.test(email)) {
     return new Response("Invalid email", { status: 400 });
   }
 
